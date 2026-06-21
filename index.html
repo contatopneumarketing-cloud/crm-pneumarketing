@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM · Pneumarketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#242424;--border:#2e2e2e;--border2:#3a3a3a;
+  --text:#f0f0f0;--text2:#a0a0a0;--text3:#666;
+  --green:#1D9E75;--green-bg:#0d2e22;--green-text:#4cd9a8;
+  --blue:#378ADD;--blue-bg:#0d1e33;--blue-text:#7ab8f5;
+  --amber:#BA7517;--amber-bg:#2a1f08;--amber-text:#f5b942;
+  --red:#E24B4A;--red-bg:#2e0f0f;--red-text:#f57a79;
+  --purple:#534AB7;--purple-bg:#1a1733;--purple-text:#a89ef5;
+  --radius:8px;--radius-lg:12px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+
+/* layout */
+.app{display:flex;min-height:100vh}
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 1rem;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.sidebar-logo{font-size:13px;font-weight:600;color:var(--text);letter-spacing:.5px;padding:0 8px;margin-bottom:1rem}
+.sidebar-logo span{color:var(--green)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius);font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--bg3);color:var(--text)}
+.nav-item .icon{font-size:16px;width:18px;text-align:center}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:99px;font-size:10px;padding:1px 6px;font-weight:600}
+.sidebar-section{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;padding:12px 10px 4px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border);gap:12px}
+.topbar-title{font-size:16px;font-weight:600;color:var(--text)}
+.topbar-sub{font-size:12px;color:var(--text3);margin-top:1px}
+.content{flex:1;padding:1.5rem;overflow-y:auto}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--bg2);color:var(--text);transition:all .15s;font-family:inherit}
+.btn:hover{background:var(--bg3);border-color:var(--border2)}
+.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.primary:hover{opacity:.85}
+.btn.sm{padding:4px 10px;font-size:12px}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem}
+.metric{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem}
+.metric-label{font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.metric-val{font-size:24px;font-weight:600;color:var(--text)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* badges */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500}
+.badge-urgent{background:var(--red-bg);color:var(--red-text)}
+.badge-today{background:var(--amber-bg);color:var(--amber-text)}
+.badge-done{background:var(--green-bg);color:var(--green-text)}
+.badge-waiting{background:var(--blue-bg);color:var(--blue-text)}
+.badge-form{background:var(--purple-bg);color:var(--purple-text)}
+.badge-lp{background:var(--green-bg);color:var(--green-text)}
+.badge-ig{background:var(--amber-bg);color:var(--amber-text)}
+
+/* cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:10px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+
+/* leads table */
+.lead-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.lead-row:last-child{border-bottom:none}
+.lead-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.av-form{background:var(--purple-bg);color:var(--purple-text)}
+.av-lp{background:var(--green-bg);color:var(--green-text)}
+.av-ig{background:var(--amber-bg);color:var(--amber-text)}
+.lead-info{flex:1;min-width:0}
+.lead-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-meta{font-size:11px;color:var(--text3);margin-top:1px}
+.prog-wrap{height:3px;background:var(--bg3);border-radius:99px;width:80px;margin-top:5px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;background:var(--green)}
+.lead-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap}
+
+/* today steps */
+.today-step{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg2);margin-bottom:8px}
+.ch-icon{width:36px;height:36px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ch-wa{background:var(--green-bg);color:var(--green-text)}
+.ch-call{background:var(--blue-bg);color:var(--blue-text)}
+
+/* cadencia steps */
+.cad-step{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg2);margin-bottom:8px;transition:border-color .15s}
+.cad-step.active{border-color:var(--blue)}
+.cad-step.locked{opacity:.35}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.sn-done{background:var(--green);color:#fff}
+.sn-active{background:var(--blue);color:#fff}
+.sn-locked{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.step-body{flex:1;min-width:0}
+.step-title{font-size:13px;font-weight:500;color:var(--text)}
+.step-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.step-hist{font-size:11px;color:var(--green-text);margin-top:5px;display:flex;align-items:center;gap:4px}
+.step-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.step-script{background:var(--bg3);border-left:2px solid var(--blue);padding:10px 12px;border-radius:0 var(--radius) var(--radius) 0;font-size:12px;color:var(--text2);line-height:1.7;margin-top:8px;display:none}
+
+/* timeline */
+.tl-item{display:flex;gap:10px;margin-bottom:10px}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px}
+.tl-text{font-size:12px;color:var(--text2);line-height:1.5}
+.tl-text strong{color:var(--text);font-weight:500}
+
+/* modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:440px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal h2{font-size:16px;font-weight:600;margin-bottom:1.25rem}
+.form-group{margin-bottom:12px}
+.form-label{font-size:11px;color:var(--text2);display:block;margin-bottom:5px;font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+.form-control{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:8px 12px;font-size:13px;color:var(--text);font-family:inherit;transition:border-color .15s}
+.form-control:focus{outline:none;border-color:var(--blue)}
+textarea.form-control{min-height:80px;resize:vertical}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem}
+
+/* filter row */
+.filter-row{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.filter-row .form-control{width:auto;font-size:12px;padding:5px 10px}
+
+/* funnel */
+.funnel-step{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.funnel-label{font-size:12px;color:var(--text2);width:100px;flex-shrink:0}
+.funnel-bar-wrap{flex:1;background:var(--bg3);border-radius:4px;height:20px;overflow:hidden}
+.funnel-bar{height:100%;border-radius:4px;transition:width .5s ease}
+.funnel-count{font-size:12px;color:var(--text3);width:24px;text-align:right;flex-shrink:0}
+
+/* wa link */
+.wa-link{display:inline-flex;align-items:center;gap:4px;color:var(--green-text);font-size:11px;font-weight:500}
+.wa-link:hover{text-decoration:underline}
+
+/* toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:12px 16px;font-size:13px;color:var(--text);z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;display:flex;align-items:center;gap:8px;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid var(--red)}
+
+/* progress bar */
+.prog-header{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px}
+.prog-full{height:5px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-bottom:1.25rem}
+.prog-full-fill{height:100%;border-radius:99px;background:var(--green);transition:width .4s ease}
+
+/* source section label */
+.section-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;margin-top:4px}
+
+/* empty */
+.empty{text-align:center;padding:3rem;color:var(--text3);font-size:13px}
+.empty-icon{font-size:32px;margin-bottom:12px}
+
+/* loading */
+.spinner{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* responsive */
+@media(max-width:640px){
+  .sidebar{display:none}
+  .content{padding:1rem}
+  .metrics{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">Pneumar<span>keting</span></div>
+    <div class="sidebar-section">Principal</div>
+    <button class="nav-item active" onclick="goTab('hoje',this)">
+      <span class="icon">📋</span> Hoje
+      <span class="nav-badge" id="nb-hoje" style="display:none">0</span>
+    </button>
+    <button class="nav-item" onclick="goTab('leads',this)">
+      <span class="icon">👥</span> Todos os leads
+    </button>
+    <button class="nav-item" onclick="goTab('cadencia',this)" id="nav-cad">
+      <span class="icon">🔁</span> Cadência
+    </button>
+    <div class="sidebar-section">Fontes</div>
+    <button class="nav-item" onclick="filterSource('Formulário');goTab('leads',document.querySelector('.nav-item:nth-child(4)'))">
+      <span class="icon">📝</span> Formulário
+    </button>
+    <button class="nav-item" onclick="filterSource('Página de vendas');goTab('leads',document.querySelector('.nav-item:nth-child(4)'))">
+      <span class="icon">🌐</span> Página de vendas
+    </button>
+    <button class="nav-item" onclick="filterSource('Instagram');goTab('leads',document.querySelector('.nav-item:nth-child(4)'))">
+      <span class="icon">📸</span> Instagram
+    </button>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="page-title">Hoje</div>
+        <div class="topbar-sub" id="sync-info">Conectando ao Supabase...</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span id="sync-spinner" style="display:none"><span class="spinner"></span></span>
+        <button class="btn" onclick="syncAll()">↺ Sincronizar</button>
+        <button class="btn primary" onclick="openNewLead()">+ Novo lead</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- HOJE -->
+      <div id="view-hoje">
+        <div class="metrics" id="hoje-metrics"></div>
+        <div class="section-lbl">Contatos pendentes</div>
+        <div id="hoje-list"></div>
+      </div>
+
+      <!-- LEADS -->
+      <div id="view-leads" style="display:none">
+        <div class="filter-row">
+          <select class="form-control" id="f-src" onchange="renderLeads()">
+            <option value="">Todas as fontes</option>
+            <option value="Formulário">Formulário nativo</option>
+            <option value="Página de vendas">Página de vendas</option>
+            <option value="Instagram">Instagram</option>
+          </select>
+          <select class="form-control" id="f-status" onchange="renderLeads()">
+            <option value="">Todos os status</option>
+            <option value="due">Fazer hoje</option>
+            <option value="late">Atrasados</option>
+            <option value="waiting">Aguardando</option>
+            <option value="done">Concluídos</option>
+          </select>
+        </div>
+        <div class="card" id="leads-list"></div>
+      </div>
+
+      <!-- CADÊNCIA -->
+      <div id="view-cadencia" style="display:none">
+        <div id="cadencia-content">
+          <div class="empty">
+            <div class="empty-icon">🔍</div>
+            Selecione um lead em "Todos os leads" e clique em "Cadência"
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal registrar -->
+<div class="modal-bg" id="modal-reg" onclick="if(event.target===this)closeModal('modal-reg')">
+  <div class="modal">
+    <h2 id="reg-title">Registrar contato</h2>
+    <div class="form-group">
+      <label class="form-label">O que aconteceu?</label>
+      <select class="form-control" id="reg-outcome">
+        <option value="">Selecionar resultado...</option>
+        <option>Atendeu — interesse alto</option>
+        <option>Atendeu — interesse baixo</option>
+        <option>Atendeu — reagendar</option>
+        <option>Não atendeu — deixei recado</option>
+        <option>Não atendeu — sem recado</option>
+        <option>WhatsApp enviado — sem resposta</option>
+        <option>Respondeu no WhatsApp</option>
+        <option>Reunião agendada</option>
+        <option>Desqualificado</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Observação</label>
+      <textarea class="form-control" id="reg-note" placeholder="Ex: tem sócio, vai confirmar sexta..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-reg')">Cancelar</button>
+      <button class="btn primary" onclick="saveReg()">Salvar e avançar</button>
+    </div>
+  </div>
+</div>
+
+<!-- modal novo lead -->
+<div class="modal-bg" id="modal-new" onclick="if(event.target===this)closeModal('modal-new')">
+  <div class="modal">
+    <h2>Novo lead</h2>
+    <div class="form-group">
+      <label class="form-label">Nome</label>
+      <input class="form-control" id="nl-name" placeholder="Nome do contato">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Empresa / Loja</label>
+      <input class="form-control" id="nl-company" placeholder="Auto Center...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefone / WhatsApp</label>
+      <input class="form-control" id="nl-phone" placeholder="(00) 00000-0000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Origem</label>
+      <select class="form-control" id="nl-src">
+        <option value="Formulário">Formulário nativo</option>
+        <option value="Página de vendas">Página de vendas</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Manual">Manual</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-new')">Cancelar</button>
+      <button class="btn primary" onclick="createLead()">Adicionar à cadência</button>
+    </div>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
