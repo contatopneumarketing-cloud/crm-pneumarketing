@@ -1,7 +1,7 @@
 // api/sync-monday.js — Vercel Serverless Function
 // Busca leads dos 3 boards Monday e retorna JSON unificado
 
-const MONDAY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY2NDgxNjc0NiwiYWFpIjoxMSwidWlkIjoxMDQxODQ2MTUsImlhZCI6IjIwMjYtMDUtMzBUMDI6MTU6MTcuMDAwWiIsInBlciI6Im1lOndyaXRlIiwiYWN0aWQiOjM1Mjc4MzA0LCJyZ24iOiJ1c2UxIn0.TXHhga14QybrpTlqGQK8HoG-8V-Miy41nC3UMdC_o64';
+const MONDAY_TOKEN = process.env.MONDAY_TOKEN || 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY2NDgxNjc0NiwiYWFpIjoxMSwidWlkIjoxMDQxODQ2MTUsImlhZCI6IjIwMjYtMDUtMzBUMDI6MTU6MTcuMDAwWiIsInBlciI6Im1lOndyaXRlIiwiYWN0aWQiOjM1Mjc4MzA0LCJyZ24iOiJ1c2UxIn0.TXHhga14QybrpTlqGQK8HoG-8V-Miy41nC3UMdC_o64';
 
 const BOARDS = [
   { id: '18415073072', src: 'Formulário', phoneCol: 'text_mm3s9dp' },
