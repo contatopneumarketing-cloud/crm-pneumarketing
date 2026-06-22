@@ -1,8 +1,7 @@
 // ─── CONFIG ─────────────────────────────────────────────────────
 // Substitua pelos seus valores do Supabase
-const SUPABASE_URL = window.ENV_SUPABASE_URL || 'https://SEU_PROJETO.supabase.co';
-const SUPABASE_KEY = window.ENV_SUPABASE_KEY || 'SUA_CHAVE_ANON_AQUI';
-
+const SUPABASE_URL = 'https://gidyntnykhcmptgdzuhl.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZHludG55a2hjbXB0Z2R6dWhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNTk5MzYsImV4cCI6MjA5NzYzNTkzNn0.cADR1ek8MXHzEHXD1ol93DZ---cKWayLeXqScaxmAyM';
 // IDs dos boards Monday.com
 const MONDAY_BOARDS = [
   { id: '18415073072', src: 'Formulário' },
